@@ -1,8 +1,20 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import { useState } from "react";
+import { phoneNumber } from "../utils/format";
 
 export default function Home() {
+    const [tel, setTel] = useState("(941) 555-0123");
+    const [address, setAddress] = useState("185 Berry St");
+    const [city, setCity] = useState("Vancouver");
+    const [zip, setZip] = useState("V6G 1H2");
+
+    const handlePhoneFormat = (input) => {
+        let number = input.target.value;
+        let formated = phoneNumber(number);
+        setTel(formated);
+    };
     return (
         <div className={styles.container}>
             <Head>
@@ -20,29 +32,32 @@ export default function Home() {
                     <input type='email' placeholder='janedoe@gmail.com' />
                     <input
                         type='tel'
+                        maxlength='16'
                         name=''
                         id=''
-                        autocomplete='tel'
-                        placeholder='(941) 555-0123'
+                        value={tel}
+                        onChange={handlePhoneFormat}
+                        autoCorrect='tel'
+                        placeholder={tel}
                     />
                     <input
                         class='input'
                         type='text'
-                        placeholder='185 Berry St'
-                        required=''
-                        autocomplete='address-line1'
+                        placeholder={address}
+                        required
+                        autoCorrect='address-line1'
                     />
                     <input
                         class='input'
                         type='text'
                         placeholder='Vancouver'
-                        required=''
-                        autocomplete='address-level2'
+                        required
+                        autoCorrect='address-level2'
                     ></input>
                 </div>
                 <div>
                     <input
-                        autocomplete='cc-number'
+                        autoCorrect='cc-number'
                         autocorrect='off'
                         spellcheck='false'
                         type='text'
@@ -55,7 +70,7 @@ export default function Home() {
                         value='4242 4242 4224 242'
                     />
                     <input
-                        autocomplete='cc-exp'
+                        autoCorrect='cc-exp'
                         autocorrect='off'
                         spellcheck='false'
                         type='text'
@@ -69,7 +84,7 @@ export default function Home() {
                     />
                     <input
                         class='InputElement is-empty Input Input--empty'
-                        autocomplete='postal-code'
+                        autoCorrect='postal-code'
                         autocorrect='off'
                         spellcheck='false'
                         type='text'
