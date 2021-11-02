@@ -1,30 +1,30 @@
 import { useRef, useState } from "react";
 
-const padTime = (time) => time.toString().padStart(2, "0");
+function padTime(time) {
+    return time?.toString().padStart(2, "0");
+}
 
 export default function Pomodoro() {
     const [title, setTitle] = useState("Let the countdown begin!");
     const [time, setTime] = useState(1 * 60);
     const intervalRef = useRef(null);
 
-    const minutes = padTime(Math.floor(time / 60));
-    const seconds = padTime(time - minutes * 60);
-
     const startTimer = () => {
-        if (intervalRef !== null) return;
+        if (intervalRef.current !== null) return;
         intervalRef.current = setInterval(() => {
             setTime((time) => {
                 if (time >= 1) return time - 1;
-
+                resetTimer();
                 return 0;
             });
         }, 1000);
     };
     const stopTimer = () => {
-        if (intervalRef !== null) return;
+        if (intervalRef.current === null) return;
+
         clearInterval(intervalRef.current);
         intervalRef.current = null;
-        setTime("Keep it up!");
+        setTitle("Keep it up!");
     };
     const resetTimer = () => {
         clearInterval(intervalRef.current);
@@ -33,6 +33,11 @@ export default function Pomodoro() {
         setTime(25 * 60);
     };
 
+    let minutes = padTime(Math.floor(time / 60));
+    let seconds = padTime(time - minutes * 60);
+
+    console.log(seconds);
+    console.log(time);
     return (
         <div className='app'>
             <h2>{title}</h2>
